@@ -24,7 +24,7 @@ public class ProductService {
     }
 
     private Product dtoToEntity(ProductRequestDTO dto) {
-        return Product.create(dto.name(), dto.price());
+        return Product.createProduct(dto.name(), dto.price());
     }
 
     public ProductResponseDTO save(ProductRequestDTO dto) {

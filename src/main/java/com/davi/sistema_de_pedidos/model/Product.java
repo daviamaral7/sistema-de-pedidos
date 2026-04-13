@@ -21,7 +21,7 @@ public class Product {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    public static Product create(String name, BigDecimal price) {
+    public static Product createProduct(String name, BigDecimal price) {
         Product product = new Product();
         product.setName(name);
         product.setPrice(price);
