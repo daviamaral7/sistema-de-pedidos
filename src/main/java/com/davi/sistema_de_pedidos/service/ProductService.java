@@ -41,14 +41,14 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductResponseDTO getById(UUID id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         return entityToDTO(product);
     }
 
     public ProductResponseDTO update(UUID id, ProductRequestDTO dto) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         product.setName(dto.name());
         product.setPrice(dto.price());
@@ -58,7 +58,7 @@ public class ProductService {
 
     public void delete(UUID id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         productRepository.delete(product);
     }

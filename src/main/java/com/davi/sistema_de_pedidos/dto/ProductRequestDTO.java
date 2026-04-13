@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public record ProductRequestDTO(
-        @NotBlank(message = "Campo nome precisa ser preenchido")
+        @NotBlank(message = "Name is required")
         String name,
-        @NotNull(message = "Campo preço precisa ser preenchido")
-        @Positive(message = "Preço precisa ser maior do que zero")
+        @NotNull(message = "Price is required")
+        @Positive(message = "Price must be greater than 0")
         BigDecimal price
 ) {
 }
