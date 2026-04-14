@@ -2,9 +2,9 @@ package com.davi.sistema_de_pedidos.service;
 
 import com.davi.sistema_de_pedidos.dto.ProductRequestDTO;
 import com.davi.sistema_de_pedidos.dto.ProductResponseDTO;
+import com.davi.sistema_de_pedidos.exceptions.ResourceNotFoundException;
 import com.davi.sistema_de_pedidos.model.Product;
 import com.davi.sistema_de_pedidos.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,11 @@ public class ProductService {
         return Product.createProduct(dto.name(), dto.price());
     }
 
+    private Product findByIdOrThrow (UUID id) {
+        return productRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
+    }
+
     public ProductResponseDTO save(ProductRequestDTO dto) {
         Product product = productRepository.save(dtoToEntity(dto));
         return entityToDTO(product);
@@ -40,15 +45,13 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductResponseDTO getById(UUID id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        Product product = findByIdOrThrow(id);
 
         return entityToDTO(product);
     }
 
     public ProductResponseDTO update(UUID id, ProductRequestDTO dto) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        Product product = findByIdOrThrow(id);
 
         product.setName(dto.name());
         product.setPrice(dto.price());
@@ -57,8 +60,7 @@ public class ProductService {
     }
 
     public void delete(UUID id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        Product product = findByIdOrThrow(id);
 
         productRepository.delete(product);
     }

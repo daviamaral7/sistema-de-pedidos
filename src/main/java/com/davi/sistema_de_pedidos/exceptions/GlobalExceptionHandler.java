@@ -2,7 +2,6 @@ package com.davi.sistema_de_pedidos.exceptions;
 
 import com.davi.sistema_de_pedidos.dto.ErrorResponse;
 import com.davi.sistema_de_pedidos.dto.ErrorValidationResponse;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +15,11 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e, HttpServletRequest request) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e, HttpServletRequest request) {
 
-        ErrorResponse response = new ErrorResponse(LocalDateTime.now(),
+        ErrorResponse response = new ErrorResponse(
+                LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 "Not Found",
                 e.getMessage(),
@@ -37,7 +37,8 @@ public class GlobalExceptionHandler {
                 map(err->err.getField() + ": " + err.getDefaultMessage()).
                 toList();
 
-        ErrorValidationResponse response = new ErrorValidationResponse(LocalDateTime.now(),
+        ErrorValidationResponse response = new ErrorValidationResponse(
+                LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
                 errorsList,
@@ -56,6 +57,19 @@ public class GlobalExceptionHandler {
                 request.getRequestURI());
 
         return ResponseEntity.internalServerError().body(response);
+    }
 
+    @ExceptionHandler(EmailInUseException.class)
+    public ResponseEntity<ErrorResponse> handleEmailInUseException(EmailInUseException e, HttpServletRequest request) {
+
+        ErrorResponse response = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                "Email Conflict",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 }
