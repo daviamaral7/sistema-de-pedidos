@@ -19,4 +19,11 @@ public class Customer {
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
+
+    public static Customer createCustomer (String name, String email) {
+        Customer customer = new Customer();
+        customer.setName(name);
+        customer.setEmail(email);
+        return customer;
+    }
 }
