@@ -32,4 +32,16 @@ public class OrderItem {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal priceAtPurchase;
+
+    public static OrderItem createOrderItem (Product product, int quantity, BigDecimal priceAtPurchase) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setProduct(product);
+        orderItem.setPriceAtPurchase(priceAtPurchase);
+        orderItem.setQuantity(quantity);
+        return orderItem;
+    }
+
+    public BigDecimal calculateSubTotal (){
+        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+    }
 }

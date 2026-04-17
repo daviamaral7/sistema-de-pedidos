@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 
         List<String> errorsList = e.getBindingResult().
                 getFieldErrors().stream().
-                map(err->err.getField() + ": " + err.getDefaultMessage()).
+                map(err -> err.getField() + ": " + err.getDefaultMessage()).
                 toList();
 
         ErrorValidationResponse response = new ErrorValidationResponse(
@@ -66,6 +66,19 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
                 "Email Conflict",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(OrderStatusException.class)
+    public ResponseEntity<ErrorResponse> handleOrderStatusException(OrderStatusException e, HttpServletRequest request) {
+        ErrorResponse response = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                "Invalid order state",
                 e.getMessage(),
                 request.getRequestURI()
         );
