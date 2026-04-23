@@ -27,7 +27,7 @@ public class OrderController {
 
     @GetMapping("/customer/{id}")
     public ResponseEntity<List<OrderResponseDTO>> getAllCustomersOrders(@PathVariable UUID id) {
-        return ResponseEntity.ok(orderService.getOrdersByCostumer(id));
+        return ResponseEntity.ok(orderService.getOrdersByCustomer(id));
     }
 
     @GetMapping("{id}")

@@ -75,7 +75,7 @@ public class OrderService {
         return orderEntityToDTO(orderRepository.save(order));
     }
 
-    public List<OrderResponseDTO> getOrdersByCostumer(UUID id) {
+    public List<OrderResponseDTO> getOrdersByCustomer(UUID id) {
         Customer customer = findCustomerByIdOrThrow(id);
         List<Order> orders = orderRepository.findByCustomer(customer);
         return orders.stream().map(this::orderEntityToDTO).toList();
