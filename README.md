@@ -181,6 +181,13 @@ Content-Type: application/json
 ./mvnw test
 ```
 
+- `CustomerControllerTest`: cobre criacao, listagem, busca por ID, atualizacao, remocao, validacao de payload, `404` para cliente inexistente e `409` para email ja cadastrado.
+- `OrderControllerTest`: cobre criacao de pedido, busca por ID, listagem por customer, pagamento, cancelamento, validacao de payload, `404` para pedido/customer inexistente e `409` para transicoes invalidas de status.
+- `ProductControllerTest`: cobre criacao, listagem, busca por ID, atualizacao, remocao, validacao de payload e `404` para produto inexistente.
+- `CustomerServiceTest`: valida persistencia, busca, atualizacao, remocao, regras de email unico e erros `404`/`409`.
+- `OrderServiceTest`: valida criacao de pedidos com multiplos itens, calculo de total, snapshot de `priceAtPurchase`, busca por pedido/customer, pagamento, cancelamento e regras de negocio centrais do fluxo de pedidos.
+- `ProductServiceTest`: valida persistencia, busca, atualizacao, remocao e erros `404` para produto inexistente.
+
 ---
 
 ## 🐳 Serviços Docker
